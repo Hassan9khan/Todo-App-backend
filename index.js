@@ -85,6 +85,12 @@ app.delete("/user/:id" , (req , res) => {
 app.put("/user/:id" , (req , res) => {
     const { id } = req.params;
     const index = users.findIndex((item) => item.id === +id)
+
+    if(index === -1){
+        res.status(404).json({
+            message: "no user found"
+        })
+    }
 })
 
 app.listen(port, () => {
