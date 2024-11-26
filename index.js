@@ -111,6 +111,8 @@ app.put("/user/:id", (req, res) => {
   });
 });
 
+// server
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });
