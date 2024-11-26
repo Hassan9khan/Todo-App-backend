@@ -63,35 +63,53 @@ app.get("/user/:id", (req, res) => {
   });
 });
 // delete todo
-app.delete("/user/:id" , (req , res) => {
-    const { id } = req.params;
-    const index = users.findIndex((item) => item.id === +id)
+app.delete("/user/:id", (req, res) => {
+  const { id } = req.params;
+  const index = users.findIndex((item) => item.id === +id);
 
-    if (index === -1){
-        res.status(404).json({
-            message: "no user found"
-        })
-        return
-    }
+  if (index === -1) {
+    res.status(404).json({
+      message: "no user found",
+    });
+    return;
+  }
 
-    users.splice(index , 1)
-    res.status(200).json({
-        message: "user is deleted",
-        data: users
-    })
-})
+  users.splice(index, 1);
+  res.status(200).json({
+    message: "user is deleted",
+    data: users,
+  });
+});
 
 // edit todo
-app.put("/user/:id" , (req , res) => {
-    const { id } = req.params;
-    const index = users.findIndex((item) => item.id === +id)
+app.put("/user/:id", (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
 
-    if(index === -1){
-        res.status(404).json({
-            message: "no user found"
-        })
-    }
-})
+
+  const index = users.findIndex((item) => item.id === +id);
+
+  if (index === -1) {
+    res.status(404).json({
+      message: "no user found",
+    });
+    return;
+  }
+
+  if (!title) {
+    res.status(400).json({
+      message: "title is required",
+    });
+    return;
+  }
+
+  users[index].title = title;
+
+  res.status(200).json({
+    message: "user is edited",
+    data: users,
+  });
+});
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
